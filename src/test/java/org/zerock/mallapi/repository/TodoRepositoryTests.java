@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.zerock.mallapi.domain.Todo;
+import org.zerock.mallapi.dto.TodoDTO;
+import org.zerock.mallapi.service.TodoService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -21,6 +23,9 @@ import lombok.extern.log4j.Log4j2;
 public class TodoRepositoryTests {
     @Autowired
     private TodoRepository todoRepository;
+
+    @Autowired
+    private TodoService todoService;
 
     @Test
     public void test1(){
@@ -66,5 +71,17 @@ public class TodoRepositoryTests {
         Page<Todo> result = todoRepository.findAll(pageable);
         log.info(result.getTotalElements());
         result.getContent().stream().forEach(todo -> log.info(todo));
+    }
+
+    @Test
+    public void testResiter(){
+        TodoDTO todoDTO = TodoDTO.builder()
+            .title("Service Test")
+            .writer("tester")
+            .duedate(LocalDate.of(2023,10,10))
+            .build();
+
+            Long tno = todoService.register(todoDTO);
+            log.info("TNO: "+tno);
     }
 }
