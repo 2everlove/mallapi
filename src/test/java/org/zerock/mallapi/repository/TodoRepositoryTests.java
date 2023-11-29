@@ -84,4 +84,11 @@ public class TodoRepositoryTests {
             Long tno = todoService.register(todoDTO);
             log.info("TNO: "+tno);
     }
+
+    @Test
+    public void testGet(){
+        Long tno = 101L;
+        TodoDTO todoDTO = todoService.get(tno);
+        log.info(todoDTO);
+    }
 }
