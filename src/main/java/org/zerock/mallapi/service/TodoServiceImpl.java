@@ -37,5 +37,23 @@ public class TodoServiceImpl implements TodoService {
         TodoDTO dto = modelMapper.map(todo, TodoDTO.class);
         return dto;
     }
+
+    @Override
+    public void modify(TodoDTO todoDTO) {
+        Optional<Todo> result = todoRepository.findById(todoDTO.getTno());
+
+        Todo todo = result.orElseThrow();
+
+        todo.changeTitle(todo.getTitle());
+        todo.changeDueDate(todo.getDueDate());
+        todo.changeComplete(todoDTO.isComplete());
+        
+        todoRepository.save(todo);
+    }
+
+    @Override
+    public void remove(Long tno) {
+        todoRepository.deleteById(tno);
+    }
     
 }
