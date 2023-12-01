@@ -11,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.zerock.mallapi.domain.Todo;
+import org.zerock.mallapi.dto.PageRequestDTO;
+import org.zerock.mallapi.dto.PageResponseDTO;
 import org.zerock.mallapi.dto.TodoDTO;
 import org.zerock.mallapi.service.TodoService;
 
@@ -88,5 +90,14 @@ public class TodoRepositoryTests {
         Long tno = 101L;
         TodoDTO todoDTO = todoService.get(tno);
         log.info(todoDTO);
+    }
+
+    @Test
+    public void testList(){
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(2).size(10).build();
+
+        PageResponseDTO<TodoDTO> response = todoService.list(pageRequestDTO);
+
+        log.info(response);
     }
 }
