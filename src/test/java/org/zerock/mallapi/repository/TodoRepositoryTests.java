@@ -78,7 +78,7 @@ public class TodoRepositoryTests {
         TodoDTO todoDTO = TodoDTO.builder()
             .title("Service Test")
             .writer("tester")
-            .duedate(LocalDate.of(2023,10,10))
+            .dueDate(LocalDate.of(2023,10,10))
             .build();
 
             Long tno = todoService.register(todoDTO);
