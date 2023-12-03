@@ -53,11 +53,11 @@ public class TodoServiceImpl implements TodoService {
 
         Todo todo = result.orElseThrow();
 
-        todo.changeTitle(todo.getTitle());
-        todo.changeDueDate(todo.getDueDate());
+        todo.changeTitle(todoDTO.getTitle());
+        todo.changeDueDate(todoDTO.getDueDate());
         todo.changeComplete(todoDTO.isComplete());
         
-        todoRepository.save(todo);
+        Todo saveTodo = todoRepository.save(todo);
     }
 
     @Override
