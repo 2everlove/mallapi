@@ -1,10 +1,12 @@
 package org.zerock.mallapi.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.mallapi.domain.Product;
 
 import lombok.extern.log4j.Log4j2;
@@ -32,5 +34,17 @@ public class ProductRepositoryTests {
 
                 log.info("----------------------");
         }
+    }
+
+    @Transactional
+    @Test
+    public void testRead(){
+        long pno = 1L;
+        Optional<Product> result = productRepository.findById(pno);
+        
+        Product product = result.orElseThrow();
+
+        log.info(product);
+        log.info(product.getImageList());
     }
 }
