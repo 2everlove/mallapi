@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.mallapi.domain.Product;
 
@@ -46,5 +47,25 @@ public class ProductRepositoryTests {
 
         log.info(product);
         log.info(product.getImageList());
+    }
+
+    @Test
+    public void testRead2(){
+        Long pno = 1L;
+
+        Optional<Product> result = productRepository.selectOne(pno);
+
+        Product product = result.orElseThrow();
+
+        log.info(product);
+        log.info(product.getImageList());
+    }
+
+    @Commit
+    @Transactional
+    @Test
+    public void testDelte(){
+        Long pno = 2L;
+        productRepository.updateToDelte(pno, true);
     }
 }
