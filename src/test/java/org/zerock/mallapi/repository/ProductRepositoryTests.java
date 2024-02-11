@@ -1,11 +1,17 @@
 package org.zerock.mallapi.repository;
 
+import java.beans.Transient;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.mallapi.domain.Product;
@@ -67,5 +73,32 @@ public class ProductRepositoryTests {
     public void testDelte(){
         Long pno = 2L;
         productRepository.updateToDelte(pno, true);
+    }
+
+    @Test
+    public void testUpdate(){
+        Long pno = 10L;
+        Product product = productRepository.selectOne(pno).get();
+
+        product.changeName("No10 product");
+        product.changeDesc("No10 Product Desc");
+        product.changePrice(5000);
+
+        product.clearList();
+
+        product.addImageString(UUID.randomUUID().toString()+"_"+"NEWIMAGE1.jpg");
+        product.addImageString(UUID.randomUUID().toString()+"_"+"NEWIMAGE2.jpg");
+        product.addImageString(UUID.randomUUID().toString()+"_"+"NEWIMAGE3.jpg");
+
+        productRepository.save(product);
+    }
+
+    @Test
+    public void testList(){
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("pno").descending());
+
+        Page<Object[]> result = productRepository.selectList(pageable);
+
+        result.getContent().forEach(arr -> log.info(Arrays.toString(arr)));
     }
 }
