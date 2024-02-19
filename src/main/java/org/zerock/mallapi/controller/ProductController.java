@@ -20,6 +20,8 @@ import org.zerock.mallapi.util.CustomFileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -32,13 +34,15 @@ public class ProductController {
     private final CustomFileUtil fileUtil;
 
     @PostMapping("/")
-    public Map<String, String> register(ProductDTO productDTO){
-        log.info("register: "+productDTO);
+    public Map<String, Long> register(ProductDTO productDTO){
+        log.info("rgister: "+productDTO);
         List<MultipartFile> files = productDTO.getFiles();
         List<String> uploadFileNames = fileUtil.saveFiles(files);
         productDTO.setUploadFileNames(uploadFileNames);
         log.info(uploadFileNames);
-        return Map.of("RESULT", "SUCCESS");
+
+        Long pno = productService.register(productDTO);
+        return Map.of("result", pno);
     }
 
     @GetMapping("/view/{fileName}")
@@ -51,5 +55,9 @@ public class ProductController {
         log.info("list: "+pageRequestDTO);
         return productService.getList(pageRequestDTO);
     }
-    
+
+    @GetMapping("/{pno}")
+    public ProductDTO read(@PathVariable(name="pno") Long pno){
+        return productService.get(pno);
+    }
 }
