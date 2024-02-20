@@ -60,7 +60,7 @@ public class CustomFileUtil {
                 String contentType = multipartFile.getContentType();
 
                 if(contentType != null && contentType.startsWith("image")){
-                    Path thumbnailPath = Paths.get(contentType, "s_"+savedName);
+                    Path thumbnailPath = Paths.get(uploadPath, "s_"+savedName);
                     Thumbnails.of(savePath.toFile()).size(200, 200).toFile(thumbnailPath.toFile());
                 }
 

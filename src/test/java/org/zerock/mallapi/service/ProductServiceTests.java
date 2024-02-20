@@ -53,4 +53,19 @@ public class ProductServiceTests {
         log.info(productDTO);
         log.info(productDTO.getUploadFileNames());
     }
+
+    @Test
+    public void testModify(){
+        Long pno = 12L;
+
+        ProductDTO productDTO = productService.get(pno);
+        productDTO.setPdesc("changed pdesc");
+        productDTO.setPname("changed name");
+
+        productService.modify(productDTO);
+
+        productDTO = productService.get(pno);
+        log.info(productDTO);
+        log.info(productDTO.getUploadFileNames());
+    }
 }
